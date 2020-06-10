@@ -30,7 +30,7 @@ class Match(db.Model):
 
     match_id = Column(Integer, primary_key=True)
     speech_id = Column(Integer, ForeignKey('speeches.speech_id'))
-    page_num = Column(Integer, nullable=False)
+    sentence_number = Column(Integer, nullable=False)
     text = Column(String, nullable=False)
 
 
