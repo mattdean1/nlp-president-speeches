@@ -1,0 +1,19 @@
+version: '3'
+services:
+  database:
+    image: postgres:11-alpine
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=postgres
+  speech-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: speech-app
+    links:
+      - database
+    environment:
+      - "DATABASE_URL=postgresql://postgres:postgres@database/president_db"
+    ports:
+      - "8000:8000"
