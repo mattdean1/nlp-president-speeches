@@ -2,6 +2,7 @@ import os
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy import (
     Column,
+    Date,
     Integer,
     String,
     ForeignKey,
@@ -23,6 +24,8 @@ class Speech(db.Model):
     speech_id = Column(Integer, primary_key=True)
     file = Column(String)
     president_id = Column(Integer, ForeignKey('presidents.president_id'))
+    title = Column(String)
+    date = Column(Date)
 
 
 class Match(db.Model):
