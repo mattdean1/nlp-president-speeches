@@ -1,12 +1,18 @@
 import React, { useState, useEffect, createContext } from 'react'
 
-const defaults = { products: [], productsMap: {}, loading: false }
+const defaults = {
+  speeches: {},
+  presidents: {},
+  matches: {},
+  loading: false,
+}
 const DataContext = createContext(defaults)
 
 const getData = async (path) => {
   const response = await fetch(`http://localhost:8000${path}`)
   return response.json()
 }
+
 const keyWithId = (array) =>
   array.reduce((acc, curr) => ({ ...acc, [curr.id]: curr }), {})
 

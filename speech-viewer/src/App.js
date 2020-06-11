@@ -6,6 +6,7 @@ import { StylesProvider } from '@material-ui/core/styles'
 import { DataProvider } from './store/context'
 import Dashboard from './pages/Dashboard'
 import Data from './pages/Data'
+import Speech from './pages/Speech'
 
 const App = () => {
   return (
@@ -25,6 +26,9 @@ const App = () => {
               </Route>
               <Route path="/data">
                 <Data />
+              </Route>
+              <Route path="/speech">
+                <Speech />
               </Route>
             </Switch>
           </Router>
