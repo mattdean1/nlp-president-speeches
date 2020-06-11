@@ -34,7 +34,6 @@ const Dashboard = () => {
 
   return (
     <Layout>
-      <Title title="Dashboard" />
       <VictoryChart padding={{ left: 75, top: 25, bottom: 25 }}>
         <VictoryLabel
           text="Mentions of environmental issues by president"

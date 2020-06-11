@@ -51,7 +51,6 @@ const Data = () => {
 
   return (
     <Layout>
-      <Title title="Speech" />
       <Container>
         <Typography variant="h4">{speech.title}</Typography>
         <Typography variant="h5">

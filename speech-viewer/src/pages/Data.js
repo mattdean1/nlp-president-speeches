@@ -64,7 +64,6 @@ const Data = () => {
 
   return (
     <Layout>
-      <Title title="Data" />
       <Container>
         <MUIDataTable
           title="Presidents addressing environmental issues"
