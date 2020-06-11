@@ -2,17 +2,27 @@ import React from 'react'
 import MUIDataTable from 'mui-datatables'
 import styled from 'styled-components'
 import { useHistory } from 'react-router-dom'
+import { createMuiTheme, MuiThemeProvider } from '@material-ui/core/styles'
 
 import { useDataContext } from '../store/context'
 import { formatDate } from '../services/formatDate'
 
 import Layout from '../components/Layout'
-import Title from '../components/Title'
 import Loading from '../components/Loading'
 
 const Container = styled.div`
   margin-top: 30px;
 `
+
+const theme = createMuiTheme({
+  overrides: {
+    MUIDataTableBodyCell: {
+      root: {
+        cursor: 'pointer',
+      },
+    },
+  },
+})
 
 const Data = () => {
   const history = useHistory()
@@ -60,17 +70,19 @@ const Data = () => {
     history.push(`/speech?speech=${speechId}&match=${matchId}`)
   }
 
-  const options = { onRowClick: handleRowClick }
+  const options = { onRowClick: handleRowClick, selectableRows: 'none' }
 
   return (
     <Layout>
       <Container>
-        <MUIDataTable
-          title="Presidents addressing environmental issues"
-          data={data}
-          columns={columns}
-          options={options}
-        />
+        <MuiThemeProvider theme={theme}>
+          <MUIDataTable
+            title="Presidents addressing environmental issues"
+            data={data}
+            columns={columns}
+            options={options}
+          />
+        </MuiThemeProvider>
       </Container>
     </Layout>
   )
