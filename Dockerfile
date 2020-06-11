@@ -10,4 +10,4 @@ RUN apk add --no-cache postgresql-libs && \
 COPY speeches speeches
 COPY start.py start.py
 
-CMD gunicorn --bind 0.0.0.0:8000 speeches.app:app
+CMD gunicorn --reload --bind 0.0.0.0:8000 speeches.app:app

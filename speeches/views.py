@@ -2,6 +2,9 @@ from flask.views import MethodView
 from flask import jsonify
 from speeches.database import President, Speech, Match
 
+def format_date(date):
+    return date.strftime("%Y-%m-%d")
+
 
 class PresidentViews(MethodView):
 
@@ -40,9 +43,11 @@ class SpeechViews(MethodView):
     def _get_single(self, id):
         speech = Speech.query.get_or_404(id)
         return jsonify({
-            "file": speech.file,
+            "text": speech.text,
             "id": speech.speech_id,
             "president_id": speech.president_id,
+            "title": speech.title,
+            "date": format_date(speech.date)
         })
 
     def _get_all(self):
@@ -50,8 +55,9 @@ class SpeechViews(MethodView):
         for speech in Speech.query.all():
             speeches.append({
                 "id": speech.speech_id,
-                "file": speech.file,
                 "president_id": speech.president_id,
+                "title": speech.title,
+                "date": format_date(speech.date)
             })
 
         return jsonify(speeches)
@@ -71,7 +77,7 @@ class MatchViews(MethodView):
             "text": match.text,
             "speech_id": match.speech_id,
             "id": match.match_id,
-            "page_num": match.page_num
+            "sentence_number": match.sentence_number
         })
 
     def _get_all(self):
@@ -81,7 +87,7 @@ class MatchViews(MethodView):
                 "text": match.text,
                 "speech_id": match.speech_id,
                 "id": match.match_id,
-                "page_num": match.page_num
+                "sentence_number": match.sentence_number
             })
         return jsonify(matches)
 

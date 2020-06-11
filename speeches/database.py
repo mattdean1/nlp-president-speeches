@@ -5,8 +5,11 @@ from sqlalchemy import (
     Date,
     Integer,
     String,
+    Text,
     ForeignKey,
+    create_engine,
 )
+from sqlalchemy.orm import sessionmaker
 
 
 db = SQLAlchemy()
@@ -22,7 +25,7 @@ class Speech(db.Model):
     __tablename__ = "speeches"
 
     speech_id = Column(Integer, primary_key=True)
-    text = Column(String)
+    text = Column(Text)
     president_id = Column(Integer, ForeignKey('presidents.president_id'))
     title = Column(String)
     date = Column(Date)
@@ -39,3 +42,6 @@ class Match(db.Model):
 
 DATABASE_URL = os.getenv("DATABASE_URL",
                          "postgresql://postgres:postgres@localhost/president_db")
+
+engine = create_engine(DATABASE_URL)
+Session = sessionmaker(bind=engine)
