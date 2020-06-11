@@ -22,7 +22,7 @@ class Speech(db.Model):
     __tablename__ = "speeches"
 
     speech_id = Column(Integer, primary_key=True)
-    file = Column(String)
+    text = Column(String)
     president_id = Column(Integer, ForeignKey('presidents.president_id'))
     title = Column(String)
     date = Column(Date)
