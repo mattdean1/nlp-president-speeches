@@ -34,7 +34,7 @@ class DB:
 
 
     def insert_speech(self, president_id, text, title, date):
-        speech = Speech(self, president_id=president_id, text=text, title=title, date=date)
+        speech = Speech(president_id=president_id, text=text, title=title, date=date)
         self.session.add(speech)
         self.session.commit()
         return speech

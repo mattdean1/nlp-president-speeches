@@ -20,7 +20,7 @@ services:
     environment:
       - DB_HOST=postgresql://postgres:postgres@database
       - DB_NAME=president_db
-    command: [python, src/insert.py]
+    command: [python, src/main.py]
 
 volumes:
   postgres_data:
