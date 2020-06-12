@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  database:
+    image: postgres:11-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+  dataloader:
+    depends_on: 
+      - database
+    image: dataloader
+    build: .
+    volumes:
+      - .:/app:cached
+    environment:
+      - DB_HOST=postgresql://postgres:postgres@database
+      - DB_NAME=president_db
+    command: [python, src/insert.py]
+
+volumes:
+  postgres_data:

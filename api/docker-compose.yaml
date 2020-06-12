@@ -1,19 +1,32 @@
 version: '3'
+
 services:
   database:
     image: postgres:11-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
     ports:
-      - "5432:5432"
+      - 5432:5432
     environment:
       - POSTGRES_PASSWORD=postgres
-  speech-app:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    image: speech-app
-    links:
+
+  flask:
+    depends_on: 
       - database
-    environment:
-      - "DATABASE_URL=postgresql://postgres:postgres@database/president_db"
+    image: flask
+    build: .
+    volumes:
+      - .:/app:cached
     ports:
-      - "8000:8000"
+      - 5000:5000
+      - 10001:10001
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@database/president_db
+      - FLASK_APP=app.py
+      - FLASK_ENV=development
+      - DEBUG
+
+volumes:
+  postgres_data:
+    external:
+      name: etl_postgres_data

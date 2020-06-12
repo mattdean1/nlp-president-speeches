@@ -9,7 +9,7 @@ const defaults = {
 const DataContext = createContext(defaults)
 
 const getData = async (path) => {
-  const response = await fetch(`http://localhost:8000${path}`)
+  const response = await fetch(`http://localhost:5000${path}`)
   return response.json()
 }
 

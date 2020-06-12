@@ -1,5 +1,13 @@
 # NP Tech test
 
+# How to run
+
+```
+brew install make
+make # see list of available commands
+make runall # Load the data, start api and frontend client
+```
+
 
 ## Overview
 
