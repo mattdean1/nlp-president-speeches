@@ -8,6 +8,10 @@ make # see list of available commands
 make runall # Load the data, start api and frontend client
 ```
 
+# How does it work
+
+- We share a docker volume (`etl_postgres_data`) between the ETL and API
+
 
 ## Overview
 

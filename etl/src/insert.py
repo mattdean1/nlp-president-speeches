@@ -3,11 +3,13 @@ import re
 from datetime import datetime
 import nltk
 from president_names import president_names
-from database import President, Speech, Session, Match
+from models import President, Speech, Match
+from database import DB
 
 nltk.download('punkt')
 root_dir = './data'
 keywords = set(['climate', 'green', 'environment'])
+db = DB()
 
 def parse_date_meta(string):
     pattern = r'"(.*)"'
@@ -31,31 +33,12 @@ def get_matching_sentences(text):
 
     return matching_sentences
 
-def insert_president(session, name):
-    president = President(name=name)
-    session.add(president)
-    session.commit()
-    return president
-
-def insert_speech(session, president_id, text, title, date):
-    speech = Speech(president_id=president_id, text=text, title=title, date=date)
-    session.add(speech)
-    session.commit()
-    return speech
-
-def insert_match(session, speech_id, sentence_number, text):
-    match = Match(speech_id=speech_id, sentence_number=sentence_number, text=text)
-    session.add(match)
-    
-
-session = Session()
-
 for president_directory in sorted(os.listdir(root_dir)):
     president_name = president_names[president_directory]
     print("Processing speeches for {}".format(president_name))
     dir_path = os.path.join(root_dir, president_directory)
 
-    president = insert_president(session, president_name)
+    president = db.insert_president(president_name)
 
     for filename in sorted(os.listdir(dir_path)):
         speech_path = os.path.join(dir_path, filename)
@@ -69,12 +52,11 @@ for president_directory in sorted(os.listdir(root_dir)):
         
         raw_text = speech.read()
 
-        speech = insert_speech(session, president.president_id, raw_text, title, date)
+        speech = db.insert_speech(president.president_id, raw_text, title, date)
 
         sentences = get_matching_sentences(raw_text)
         for sentence in sentences:
-            insert_match(session, speech_id=speech.speech_id, sentence_number=sentence["index"], text=sentence["text"])
-        session.commit()
+            db.insert_match(speech_id=speech.speech_id, sentence_number=sentence["index"], text=sentence["text"])
     
 
 
