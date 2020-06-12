@@ -1,5 +1,4 @@
 import React from 'react'
-import styled from 'styled-components'
 import { VictoryBar, VictoryChart, VictoryAxis, VictoryLabel } from 'victory'
 
 const PresidentChart = ({ speeches, presidents, matches }) => {

@@ -9,6 +9,6 @@ export const useFetch = (path) => {
       setResponse(json)
     }
     doFetch()
-  }, [])
+  }, [path])
   return response
 }
