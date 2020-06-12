@@ -11,6 +11,24 @@ make runall # Load the data, start api and frontend client
 # How does it work
 
 - We share a docker volume (`etl_postgres_data`) between the ETL and API
+- The etl loads the data as follows:
+	- Read each folder of president speeches, insert president and speech into the database
+	- Sentence's are classified 
+
+
+# What's next
+
+1. Classify sentences using an ML model e.g: https://github.com/ThilinaRajapakse/simpletransformers#minimal-start-for-binary-classification
+	- train on a corpus of sentences about [climate change](https://en.wikipedia.org/wiki/Global_warming) and not about climate change
+2. Share db models between etl and api
+3. Setup python linting / static analysis
+
+-----
+
+- Split president names into firstname/lastname for better sorting
+- Return pre-sorted / precomputed data from extra endpoints -- then we need to do less manipulation on the client
+- Transform / format data when we recieve it in client (get rid of those underscores 🤮)
+- Add (more) tests in js and python
 
 
 ## Overview
