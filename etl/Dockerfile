@@ -1,21 +1,13 @@
-FROM python:3.7-alpine
+FROM continuumio/miniconda3
 
-# Keeps Python from generating .pyc files in the container
-ENV PYTHONDONTWRITEBYTECODE 1
+RUN conda create -n transformers
+ENV PATH /opt/conda/envs/transformers/bin:$PATH
+SHELL ["conda", "run", "-n", "transformers", "/bin/bash", "-c"]
 
-# Turns off buffering for easier container logging
-ENV PYTHONUNBUFFERED 1
+RUN conda install python pandas tqdm pytorch cpuonly -c pytorch
+RUN conda install -c conda-forge jupyterlab ipywidgets nodejs
+RUN pip install simpletransformers
+RUN jupyter nbextension enable --py widgetsnbextension
+RUN jupyter labextension install @jupyter-widgets/jupyterlab-manager
 
-RUN apk add --no-cache postgresql-libs && \
-    apk add --no-cache --virtual .build-deps gcc musl-dev postgresql-dev make && \
-    pip install --upgrade pip setuptools 
-
-COPY requirements.txt requirements.txt
-
-RUN pip install -r requirements.txt && apk --purge del .build-deps
-
-WORKDIR /app
-
-# Switch to a non-root user, see https://aka.ms/vscode-docker-python-user-rights
-RUN adduser -D appuser && chown -R appuser /app
-USER appuser
+CMD [ "jupyter", "lab", "--allow-root", "--no-browser", "--ip", "0.0.0.0" ]

@@ -14,13 +14,14 @@ services:
     depends_on: 
       - database
     image: dataloader
+    ports:
+      - 8888:8888
     build: .
     volumes:
-      - .:/app:cached
+      - .:/app
     environment:
       - DB_HOST=postgresql://postgres:postgres@database
       - DB_NAME=president_db
-    command: [python, src/main.py]
 
 volumes:
   postgres_data:
