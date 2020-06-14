@@ -18,7 +18,7 @@ brew install make
 make
 
 # Load the data, start api and frontend client
-# (you might want to go grab a ☕️ - it took about 1 hour for me) 
+# (you might want to go grab a ☕️) 
 # look out for the climate-related sentences being printed to console
 make runall
 
@@ -37,11 +37,11 @@ make etl-notebook
 	- Trained on a corpus of sentences about [climate change](https://en.wikipedia.org/wiki/Global_warming) and [not about climate change](https://winstonchurchill.org/resources/speeches/1940-the-finest-hour/their-finest-hour/)
 	- Note: we see many sentences being misclassified - e.g. most sentences with numbers in end up the `climate` set - that could be mitigated by using larger and more representative training datasets
 
-To begin with I used a simpler classifier - does the sentence contain 1 or more keywords in the set e.g. ["climate", "environment", "green"], which actually produced fairly good results
+That model actually took too much time to return predictions :(, so I reverted to the original "classifier" - does the sentence contain 1 or more keywords in the set e.g. ["climate", "environment", "green"].
 
 # What's next
 
-1. Use larger datasets for training/evaluation, speed up prediction by passing in more sentences at once
+1. Use larger datasets for training/evaluation, speed up prediction by passing in more sentences at once or using a smaller model
 2. Share db models between etl and api
 3. Setup python linting / static analysis
 
