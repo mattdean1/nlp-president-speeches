@@ -1,35 +1,63 @@
 # NP Tech test
 
+# Prereqs
+
+Make sure you have [git-lfs](https://help.github.com/en/github/managing-large-files/installing-git-large-file-storage) installed to download the model file.
+
+```
+brew install git-lfs
+git lfs install
+git clone https://github.com/mattdean1/netpurpose
+```
+
 # How to run
 
 ```
 brew install make
-make # see list of available commands
-make runall # Load the data, start api and frontend client
+# see list of available commands
+make
+
+# Load the data, start api and frontend client
+# (you might want to go grab a ☕️ - it took about 1 hour for me) 
+# look out for the climate-related sentences being printed to console
+make runall
+
+# Inspect the model generation and play around (stop the api containers first)
+# Open the link from terminal and go to 'app' directory in the sidebar
+make etl-notebook
 ```
 
 # How does it work
 
-- We share a docker volume (`etl_postgres_data`) between the ETL and API
+- We share the database as docker volume (`etl_postgres_data`) between the ETL and API
+
 - The etl loads the data as follows:
 	- Read each folder of president speeches, insert president and speech into the database
-	- Sentence's are classified 
+	- Sentences are classified using a pretrained classification model based on RoBERTa, using [SimpleTransformers lib](https://github.com/ThilinaRajapakse/simpletransformers)
+	- Trained on a corpus of sentences about [climate change](https://en.wikipedia.org/wiki/Global_warming) and [not about climate change](https://winstonchurchill.org/resources/speeches/1940-the-finest-hour/their-finest-hour/)
+	- Note: we see many sentences being misclassified - e.g. most sentences with numbers in end up the `climate` set - that could be mitigated by using larger and more representative training datasets
 
+To begin with I used a simpler classifier - does the sentence contain 1 or more keywords in the set e.g. ["climate", "environment", "green"], which actually produced fairly good results
 
 # What's next
 
-1. Classify sentences using an ML model e.g: https://github.com/ThilinaRajapakse/simpletransformers#minimal-start-for-binary-classification
-	- train on a corpus of sentences about [climate change](https://en.wikipedia.org/wiki/Global_warming) and not about climate change
+1. Use larger datasets for training/evaluation, speed up prediction by passing in more sentences at once
 2. Share db models between etl and api
 3. Setup python linting / static analysis
-
------
 
 - Split president names into firstname/lastname for better sorting
 - Return pre-sorted / precomputed data from extra endpoints -- then we need to do less manipulation on the client
 - Transform / format data when we recieve it in client (get rid of those underscores 🤮)
 - Add (more) tests in js and python
 
+# Sources
+
+- https://medium.com/@philipplies/reproducible-machine-learning-with-docker-jupyterlab-and-fastai-pytorch-6080fdac3d0f
+- https://towardsdatascience.com/conda-pip-and-docker-ftw-d64fe638dc45
+- https://pythonspeed.com/articles/activate-conda-dockerfile/
+
+
+---------
 
 ## Overview
 

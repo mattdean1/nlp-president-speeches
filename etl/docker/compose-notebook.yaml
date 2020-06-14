@@ -1,4 +1,4 @@
-version: '3'
+version: '3.4'
 
 services:
   database:
@@ -10,18 +10,21 @@ services:
     environment:
       - POSTGRES_PASSWORD=postgres
 
-  dataloader:
+  etl:
     depends_on: 
       - database
-    image: dataloader
+    image: etl
+    shm_size: 2gb
     ports:
-      - 8888:8888
+      - 8889:8889
     build: .
     volumes:
-      - .:/app
+      - ..:/app
     environment:
       - DB_HOST=postgresql://postgres:postgres@database
       - DB_NAME=president_db
+    command: ["jupyter", "lab", "--allow-root", "--no-browser", "--ip", "0.0.0.0" , "--port", "8889"]
 
 volumes:
   postgres_data:
+    name: etl_postgres_data

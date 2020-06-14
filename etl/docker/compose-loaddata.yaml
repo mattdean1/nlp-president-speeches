@@ -1,0 +1,28 @@
+version: '3.4'
+
+services:
+  database:
+    image: postgres:11-alpine
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_PASSWORD=postgres
+
+  etl:
+    depends_on: 
+      - database
+    image: etl
+    build: .
+    volumes:
+      - ..:/app
+    environment:
+      - DB_HOST=postgresql://postgres:postgres@database
+      - DB_NAME=president_db
+    command: ["python", "app/src/main.py"]
+
+
+volumes:
+  postgres_data:
+    name: etl_postgres_data

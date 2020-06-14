@@ -8,13 +8,13 @@ from parse_file import parse_date_meta, parse_title_meta
 from get_matches import get_matching_sentences
 
 
-root_dir = './data'
+root_dir = '/app/data/president-speeches'
 db = DB()
 
 
 for president_directory in sorted(os.listdir(root_dir)):
     president_name = president_names[president_directory]
-    print("Processing speeches for {}".format(president_name))
+    print("\nProcessing speeches for {}".format(president_name))
     dir_path = os.path.join(root_dir, president_directory)
 
     president = db.insert_president(president_name)

@@ -5,13 +5,19 @@ runall: ## Load the data, start api and frontend client
 	make client-start
 
 ### ETL ###
+etl-build: ## Build ETL container
+	docker build -t etl etl/docker
+
+etl-notebook: ## Start a jupyter notebook
+	docker-compose -f etl/docker/compose-notebook.yaml -p etl up
+
 etl-loaddata: ## Drop database and recreate
 	-docker stop api_flask_1
 	-docker stop api_database_1
 	-docker container rm etl_database_1
 	-docker container rm api_database_1
 	-docker volume rm etl_postgres_data
-	docker-compose -f etl/docker-compose.yaml up --build --abort-on-container-exit --exit-code-from dataloader
+	docker-compose -f etl/docker/compose-loaddata.yaml -p etl up --build --abort-on-container-exit --exit-code-from etl
 
 
 ### CLIENT ###
