@@ -20,21 +20,21 @@ make etl-notebook
 ```
 
 
-### 1. Process + Load data (`etl`)
+## 1. Process + Load data (`etl`)
 
 - Read `.txt` from filesystem
 - Model iteration in Jupyter Notebooks
 - Text processing and classification using NLTK and PyTorch
 - All environments using docker/docker-compose
 
-### 2. Serve (`api`)
+## 2. Serve (`api`)
 
 - Simple flask app exposing rest endpoints
 - Integration with VSCode debugger
 - Hot reloading
 - Again all dockerized
 
-### 3. Visualise
+## 3. Visualise (`client`)
 
 - React app displaying the data
 - Charting with [Victory](https://formidable.com/open-source/victory/)
